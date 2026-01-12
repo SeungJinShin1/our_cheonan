@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>우리가 사는 천안</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -22,17 +22,28 @@
         }
     </script>
     <style>
-        body { font-family: 'Jua', sans-serif; background-color: #f0f9ff; }
+        /* 모바일 화면 높이 대응 (dvh: Dynamic Viewport Height) */
+        body { 
+            font-family: 'Jua', sans-serif; 
+            background-color: #f0f9ff;
+            height: 100vh; /* Fallback */
+            height: 100dvh; /* Mobile Browser Bar 대응 */
+        }
+        
+        /* 스크롤바 숨김 & 부드러운 스크롤 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .scroll-smooth { -webkit-overflow-scrolling: touch; }
+
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* 지도 관련 스타일(마커 등)은 Leaflet 지도에서는 사용하지 않지만, 추후 확장성을 위해 남겨두거나 삭제 가능. 현재는 오류와 무관하므로 유지. */
+        
         .marker-point { animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 82, 82, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0); } }
+        
         .custom-popup { position: absolute; bottom: 120%; left: 50%; transform: translateX(-50%); background: white; padding: 10px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #4CAF50; width: 200px; z-index: 50; display: none; text-align: center; }
         .custom-popup::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: #4CAF50 transparent transparent transparent; }
-        /* map-view-container 스타일은 더 이상 쓰이지 않지만 CSS 오류는 아니므로 둠 */
+        
         #map-view-container { cursor: grab; overflow: hidden; touch-action: none; }
         #map-view-container:active { cursor: grabbing; }
         #zoom-content { transform-origin: center center; transition: transform 0.1s ease-out; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
@@ -40,7 +51,7 @@
         .folder-icon { font-size: 3rem; color: #FFC107; }
     </style>
 </head>
-<body class="overflow-hidden w-full h-screen flex flex-col">
+<body class="overflow-hidden w-full flex flex-col">
 
     <header class="bg-white shadow-md z-40 flex items-center justify-between p-4 h-16 shrink-0">
         <div class="flex items-center gap-4">
@@ -60,14 +71,14 @@
         </button>
     </header>
 
-    <div class="flex flex-1 relative overflow-hidden">
-        <nav id="sidebar" class="absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-72 bg-white shadow-xl transition-transform duration-300 ease-in-out z-50 flex flex-col border-r border-gray-100">
-            <div class="p-6 bg-gradient-to-r from-cheonan-green to-cheonan-dark-green text-white">
+    <div class="flex flex-1 relative overflow-hidden h-full">
+        <!-- 사이드바 -->
+        <nav id="sidebar" class="absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-72 bg-white shadow-xl transition-transform duration-300 ease-in-out z-50 flex flex-col border-r border-gray-100 h-full">
+            <div class="p-6 bg-gradient-to-r from-cheonan-green to-cheonan-dark-green text-white shrink-0">
                 <p class="text-xl font-bold">천안 탐험대</p>
                 <p class="text-sm opacity-90 mt-1">어디로 가볼까요?</p>
             </div>
-            <div class="flex-1 overflow-y-auto p-4 space-y-3">
-                <!-- 천안 지도 보기 메뉴 삭제됨 (이전 요청 반영) -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth pb-20"> <!-- 하단 여백 추가 -->
                 
                 <div class="text-xs font-bold text-gray-400 px-2 mt-2 mb-1">탐구 활동</div>
                 <button onclick="showSection('location-finder')" class="w-full text-left p-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-800 transition-all flex items-center gap-3 group">
@@ -79,16 +90,19 @@
                 <button onclick="showSection('photos')" class="w-full text-left p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-800 transition-all flex items-center gap-3 group">
                     <span class="text-2xl group-hover:scale-110 transition-transform">📸</span> <div><span class="block font-bold">사진 자료실</span><span class="text-xs opacity-70">천안의 모습들</span></div>
                 </button>
+                
                 <div class="text-xs font-bold text-gray-400 px-2 mt-4 mb-1">더 알아보기</div>
                 <button onclick="showSection('websites')" class="w-full text-left p-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-800 transition-all flex items-center gap-3 group">
                     <span class="text-2xl group-hover:scale-110 transition-transform">💻</span> <div><span class="block font-bold">누리집 방문</span><span class="text-xs opacity-70">천안시청, 문화관광</span></div>
                 </button>
+                
                 <div class="text-xs font-bold text-gray-400 px-2 mt-4 mb-1">선생님 전용</div>
                 <button onclick="showSection('teachers')" class="w-full text-left p-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 transition-all flex items-center gap-3 group">
                     <span class="text-2xl group-hover:scale-110 transition-transform">👩‍🏫</span> <div><span class="block font-bold">교사용 자료실</span><span class="text-xs opacity-70">교과서, 수업자료</span></div>
                 </button>
             </div>
-            <button onclick="toggleSidebar()" class="md:hidden absolute top-2 right-2 text-white/80 hover:text-white">
+            <!-- 모바일용 닫기 버튼 -->
+            <button onclick="toggleSidebar()" class="md:hidden absolute top-2 right-2 text-white/80 hover:text-white p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -96,11 +110,9 @@
         </nav>
 
         <main class="flex-1 relative bg-gray-50 w-full h-full overflow-hidden flex flex-col">
-            <!-- 지도 보기 섹션 (삭제됨 - 이전 요청 반영) -->
-
             <!-- 위치 찾기 섹션 -->
             <div id="section-location-finder" class="section-content w-full h-full flex flex-col">
-                <div class="p-6 bg-blue-50 border-b border-blue-100 z-10">
+                <div class="p-6 bg-blue-50 border-b border-blue-100 z-10 shrink-0">
                     <h2 class="text-2xl text-blue-800 mb-2">📍 우리 학교 찾아보기</h2>
                     <div class="bg-white p-4 rounded-xl border-2 border-blue-200 shadow-sm flex items-start gap-3">
                         <span class="text-3xl">🤔</span>
@@ -116,8 +128,8 @@
             </div>
 
             <!-- 특산물과 축제 섹션 -->
-            <div id="section-festival" class="section-content hidden w-full h-full overflow-y-auto bg-yellow-50">
-                <div class="max-w-4xl mx-auto p-6 md:p-10 space-y-10">
+            <div id="section-festival" class="section-content hidden w-full h-full overflow-y-auto bg-yellow-50 scroll-smooth">
+                <div class="max-w-4xl mx-auto p-6 md:p-10 space-y-10 pb-20">
                     <div class="text-center">
                         <h2 class="text-3xl md:text-4xl text-yellow-800 mb-4 inline-block relative">
                             🎉 천안의 자랑거리
@@ -140,9 +152,9 @@
                             <div class="absolute -right-4 -bottom-8 opacity-20 text-9xl">🌿</div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            <!-- 호두 -->
+                            <!-- 호두 (파스텔톤 + 아이콘) -->
                             <div class="bg-white rounded-2xl p-5 shadow-lg border-2 border-transparent hover:border-orange-200 transition-all">
-                                <div class="h-32 rounded-xl mb-3 flex items-center justify-center" style="background-color: #FEF3E2;"> <!-- 더 연한 파스텔 톤 배경 -->
+                                <div class="h-32 rounded-xl mb-3 flex items-center justify-center" style="background-color: #FEF3E2;">
                                     <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                                         <ellipse cx="50" cy="50" rx="40" ry="35" fill="#D7CCC8" stroke="#8D6E63" stroke-width="3"/>
                                         <path d="M50 15 V 85" stroke="#8D6E63" stroke-width="3" stroke-linecap="round"/>
@@ -213,9 +225,9 @@
                 </div>
             </div>
 
-            <!-- 사진 자료실 섹션 (수정됨) -->
-            <div id="section-photos" class="section-content hidden w-full h-full flex flex-col bg-indigo-50 overflow-y-auto">
-                <div class="max-w-4xl mx-auto p-6 md:p-10 flex flex-col h-full items-center justify-center">
+            <!-- 사진 자료실 섹션 -->
+            <div id="section-photos" class="section-content hidden w-full h-full flex flex-col bg-indigo-50 overflow-y-auto scroll-smooth">
+                <div class="max-w-4xl mx-auto p-6 md:p-10 flex flex-col h-full items-center justify-center pb-20">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-bold text-indigo-800 mb-4">📸 천안 사진 자료실</h2>
                         <p class="text-gray-600">천안의 멋진 모습과 산업단지 사진을 확인해보세요.<br>(아래 버튼을 누르면 사진이 있는 곳으로 이동합니다)</p>
@@ -254,8 +266,8 @@
             </div>
 
             <!-- 교사용 자료실 -->
-            <div id="section-teachers" class="section-content hidden w-full h-full overflow-y-auto bg-gray-50">
-                <div class="max-w-4xl mx-auto p-6 md:p-10">
+            <div id="section-teachers" class="section-content hidden w-full h-full overflow-y-auto bg-gray-50 scroll-smooth">
+                <div class="max-w-4xl mx-auto p-6 md:p-10 pb-20">
                     <div class="bg-white rounded-3xl p-8 shadow-lg mb-8 border-l-8 border-gray-600">
                         <h2 class="text-3xl font-bold text-gray-800 mb-2">👩‍🏫 선생님 자료실</h2>
                         <p class="text-gray-500">수업에 필요한 자료를 다운로드하세요.</p>
@@ -304,8 +316,8 @@
             </div>
 
             <!-- 누리집 섹션 -->
-            <div id="section-websites" class="section-content hidden w-full h-full overflow-y-auto bg-purple-50">
-                <div class="max-w-4xl mx-auto p-6 md:p-10 flex flex-col h-full items-center justify-center">
+            <div id="section-websites" class="section-content hidden w-full h-full overflow-y-auto bg-purple-50 scroll-smooth">
+                <div class="max-w-4xl mx-auto p-6 md:p-10 flex flex-col h-full items-center justify-center pb-20">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-bold text-purple-800 mb-4">💻 천안시 누리집 방문하기</h2>
                         <p class="text-gray-600">더 많은 정보가 필요하면 아래 버튼을 눌러보세요.</p>
@@ -334,7 +346,7 @@
         // 섹션/사이드바 로직
         function showSection(sectionId) {
             document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
-            if (sectionId === 'intro') sectionId = 'location-finder'; // 기본값 변경: 지도 보기 삭제로 인해 위치 찾기로 변경
+            if (sectionId === 'intro') sectionId = 'location-finder'; // 기본값 변경
             const target = document.getElementById('section-' + sectionId);
             if (target) { target.classList.remove('hidden'); target.classList.add('fade-in'); }
             if (window.innerWidth < 768) closeSidebarMobile();
@@ -348,16 +360,16 @@
         }
         function closeSidebarMobile() { const sidebar = document.getElementById('sidebar'); if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) sidebar.classList.add('-translate-x-full'); }
 
+        // 지도 줌/드래그 (Leaflet)
         var map; var cheonanBounds;
         document.addEventListener('DOMContentLoaded', function() {
             const southWest = L.latLng(36.6200, 127.0650); const northEast = L.latLng(37.0000, 127.4400); cheonanBounds = L.latLngBounds(southWest, northEast);
             map = L.map('map', { maxBounds: cheonanBounds, maxBoundsViscosity: 1.0, minZoom: 11, maxZoom: 18 }).setView([36.8151, 127.1139], 12);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
             L.marker([36.8151, 127.1139]).addTo(map).bindPopup('<b>천안시청</b><br>여기가 천안의 중심이에요!').openPopup();
-            showSection('location-finder'); // 초기 화면 변경
+            showSection('location-finder'); // 초기 화면
         });
         window.addEventListener('resize', () => { if (window.innerWidth >= 768) { const sb = document.getElementById('sidebar'); sb.classList.remove('-translate-x-full'); sb.style.width = ''; sb.classList.add('w-72'); sb.classList.remove('w-0', 'overflow-hidden', 'p-0'); } else { document.getElementById('sidebar').classList.add('-translate-x-full'); } });
     </script>
 </body>
-
 </html>
