@@ -1,13 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/',
-        destination: '/index.html',
-      },
-    ];
-  },
+  // Configured default settings
 };
 
 export default nextConfig;
