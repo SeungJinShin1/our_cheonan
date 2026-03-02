@@ -43,6 +43,16 @@ export default function Sidebar({ showSection, toggleSidebar, isSidebarOpen }) {
                         <span className="text-xs opacity-70">천안의 모습들</span>
                     </div>
                 </button>
+                <button
+                    onClick={() => showSection('changing-cheonan')}
+                    className="w-full text-left p-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 transition-all flex items-center gap-3 group"
+                >
+                    <span className="text-2xl group-hover:scale-110 transition-transform">📊</span>
+                    <div>
+                        <span className="block font-bold">변화하는 천안</span>
+                        <span className="text-xs opacity-70">스마트 도시, 다문화 등</span>
+                    </div>
+                </button>
 
                 <div className="text-xs font-bold text-gray-400 px-2 mt-4 mb-1">더 알아보기</div>
                 <button

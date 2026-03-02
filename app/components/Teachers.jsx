@@ -27,13 +27,16 @@ export default function Teachers() {
                             <a href="https://works.do/GLfzH8W" target="_blank" rel="noreferrer" className="block p-4 border border-gray-200 rounded-xl hover:bg-red-50 hover:border-red-200 transition-all flex justify-between items-center">
                                 <span className="font-bold">📘 체험길</span> <span className="text-blue-500 text-sm">다운로드 ⬇</span>
                             </a>
+                            <a href="https://works.do/FSHSnwf" target="_blank" rel="noreferrer" className="block p-4 border border-gray-200 rounded-xl hover:bg-red-50 hover:border-red-200 transition-all flex justify-between items-center">
+                                <span className="font-bold">🗺️ 천안시 지도</span> <span className="text-blue-500 text-sm">다운로드 ⬇</span>
+                            </a>
                         </div>
                     </div>
                     <div className="bg-white rounded-2xl p-6 shadow-md">
                         <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                             <span className="bg-green-100 text-green-600 p-2 rounded-lg text-sm">Game</span> 보드게임 자료
                         </h3>
-                        <a href="https://works.do/GwGSlWb" target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-green-50 transition-colors">
+                        <a href="https://works.do/GrleszX" target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-green-50 transition-colors">
                             <div className="flex items-center gap-3">
                                 <span className="text-2xl">🎲</span>
                                 <div>
@@ -48,7 +51,7 @@ export default function Teachers() {
                         <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                             <span className="bg-yellow-100 text-yellow-600 p-2 rounded-lg text-sm">Doc</span> 학습지 자료
                         </h3>
-                        <a href="https://works.do/GrleszX" target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-yellow-50 transition-colors">
+                        <a href="https://works.do/GwGSlWb" target="_blank" rel="noreferrer" className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-yellow-50 transition-colors">
                             <div className="flex items-center gap-3">
                                 <span className="text-2xl">📝</span>
                                 <div>

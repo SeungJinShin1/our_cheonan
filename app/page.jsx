@@ -8,6 +8,7 @@ import Festival from './components/Festival';
 import Photos from './components/Photos';
 import Teachers from './components/Teachers';
 import Websites from './components/Websites';
+import ChangingCheonan from './components/ChangingCheonan';
 
 // Dynamic import for Leaflet map component to prevent SSR issues
 const LocationFinder = dynamic(() => import('./components/LocationFinder'), {
@@ -61,6 +62,7 @@ export default function Home() {
                     {activeSection === 'location-finder' && <LocationFinder />}
                     {activeSection === 'festival' && <Festival />}
                     {activeSection === 'photos' && <Photos />}
+                    {activeSection === 'changing-cheonan' && <ChangingCheonan />}
                     {activeSection === 'teachers' && <Teachers />}
                     {activeSection === 'websites' && <Websites />}
                 </main>
