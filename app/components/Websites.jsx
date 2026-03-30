@@ -6,14 +6,14 @@ export default function Websites() {
                     <h2 className="text-3xl font-bold text-purple-800 mb-4">💻 천안시 누리집 방문하기</h2>
                     <p className="text-gray-600">더 많은 정보가 필요하면 아래 버튼을 눌러보세요.</p>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-3xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
                     <a href="https://www.cheonan.go.kr/" target="_blank" rel="noreferrer" className="block group">
                         <div className="bg-white rounded-3xl p-8 shadow-lg border-4 border-transparent hover:border-cheonan-green hover:shadow-xl transition-all flex flex-col items-center text-center h-full">
                             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <span className="text-5xl">🏢</span>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-800 mb-2">천안시청 누리집</h3>
-                            <span className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold group-hover:bg-cheonan-green group-hover:text-white transition-colors">
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">천안시청 누리집</h3>
+                            <span className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold group-hover:bg-cheonan-green group-hover:text-white transition-colors mt-auto">
                                 바로가기 ➜
                             </span>
                         </div>
@@ -23,8 +23,19 @@ export default function Websites() {
                             <div className="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                                 <span className="text-5xl">🎡</span>
                             </div>
-                            <h3 className="text-2xl font-bold text-gray-800 mb-2">천안 문화관광</h3>
-                            <span className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold group-hover:bg-pink-500 group-hover:text-white transition-colors">
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">천안 문화관광</h3>
+                            <span className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold group-hover:bg-pink-500 group-hover:text-white transition-colors mt-auto">
+                                바로가기 ➜
+                            </span>
+                        </div>
+                    </a>
+                    <a href="https://www.icj.kr/bbs/search.php?sfl=wr_subject%7C%7Cwr_content&stx=%EC%B2%9C%EC%95%88%EC%9D%98+%EC%A7%80%EB%AA%85%EC%9C%A0%EB%9E%98" target="_blank" rel="noreferrer" className="block group">
+                        <div className="bg-white rounded-3xl p-8 shadow-lg border-4 border-transparent hover:border-blue-400 hover:shadow-xl transition-all flex flex-col items-center text-center h-full">
+                            <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <span className="text-5xl">📚</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-800 mb-2">천안 지명 유래</h3>
+                            <span className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full text-sm font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors mt-auto">
                                 바로가기 ➜
                             </span>
                         </div>
